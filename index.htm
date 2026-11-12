@@ -17,7 +17,7 @@
             </div>
             <div class="resumen">
                 <p class="resumen-titulo">Saldo total</p>
-                <p class="resumen-saldo"><span id="saldo">0,00</span> €</p>
+                <p class="resumen-saldo"><span id="saldo" class="saldo">0,00</span> €</p>
             </div>
         </div>
     </header>
@@ -43,7 +43,52 @@
                     <button class="boton boton-retirar">Retirar</button>
                 </div>
             </div>
+            <div class="cuenta">
+                <p class="cuenta-texto">E01</p>
+                <p class="titular">Ana López</p>
+                <p class="cuenta-texto">Saldo disponible</p>
+                <p class="saldo"><span>1250,00</span> €</p>
+                <div class="cuenta-opciones">
+                    <button class="boton boton-eliminar">Eliminar</button>
+                    <button class="boton boton-ingresar">Ingresar</button>
+                    <button class="boton boton-retirar">Retirar</button>
+                </div>
+            </div>
+            <div class="cuenta">
+                <p class="cuenta-texto">E01</p>
+                <p class="titular">Ana López</p>
+                <p class="cuenta-texto">Saldo disponible</p>
+                <p class="saldo"><span>1250,00</span> €</p>
+                <div class="cuenta-opciones">
+                    <button class="boton boton-eliminar">Eliminar</button>
+                    <button class="boton boton-ingresar">Ingresar</button>
+                    <button class="boton boton-retirar">Retirar</button>
+                </div>
+            </div>
         </div>
     </main>
+    <dialog class="dialogo" id="crearCuenta">
+        <h2>Crear cuenta</h2>
+        <form method="dialog">
+            <label for="numeroCuenta">Número de cuenta</label>
+            <input type="text" name="numeroCuenta" id="numeroCuenta" class="control">
+            <label for="titular">Titular</label>
+            <input type="text" name="titular" id="titular" class="control">
+            <label for="saldoInicial">Saldo inicial</label>
+            <input type="number" name="saldoInicial" id="saldoInicial" class="control">
+            <button class="boton boton-aceptar">Crear cuenta</button>
+        </form>
+        <button class="dialogo-cerrar">x</button>
+    </dialog>
+    <dialog class="dialogo" id="realizarOperacion">
+        <h2>Operación</h2>
+        <form method="dialog">
+            <p class="datos-cuenta">ES-21 Ana López</p>
+            <label for="importe">Importe</label>
+            <input type="number" name="importe" id="importe" class="control">
+            <button class="boton boton-aceptar">Confirmar operación</button>
+        </form>
+        <button class="dialogo-cerrar">x</button>
+    </dialog>    
 </body>
 </html>

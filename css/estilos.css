@@ -1,5 +1,182 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
 *:not(dialog), *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+:root {
+    --color-primario: rgb(5, 28, 61);
+    --color-secundario: rgb(19, 63, 98);
+    --color-terciario: rgb(18, 50, 76);
+    --color-texto-primario: rgb(234, 234, 234);
+    --color-texto-eliminar: rgb(226, 74, 74);
+    --color-texto-ingresar: rgb(67, 214, 67);
+    --color-texto-retirar: yellow;
+    --color-foco: goldenrod;
+    --ancho-contenido: 60%;
+}
+body {
+    font-family: "Open Sans";
+    background-color: var(--color-secundario);
+    color: var(--color-texto-primario);
+}
+.encabezado {
+    background-color: var(--color-primario);
+    padding: .6rem;
+    background-image: url('../images/logo.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: 20px;
+}
+.encabezado-contenedor {
+    width: var(--ancho-contenido);
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+.banco-titulo {
+    text-transform: uppercase;
+    font-weight: normal;
+    font-size: 1rem;
+}
+.banco-nombre {
+    font-size: 2rem;
+}
+.resumen-saldo {
+    text-align: end;
+}
+.saldo {
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+.principal {
+    width: var(--ancho-contenido);
+    margin: 1.2rem auto;
+    border-radius: 10px;
+    box-shadow: 0 0 6px 2px var(--color-primario);
+    background-color: var(--color-terciario);
+    padding: 1rem;
+}
+.principal-encabezado {
+    display: flex;
+    justify-content: space-between;
+    gap:1rem;
+    /* En tamaños de ventana más pequeño, los botones quedan demasiado altos */
+    align-items: center;
+}
+.cuentas {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    flex-wrap: wrap;
+}
+.cuenta {
+    padding: 1rem;
+    border-radius: 10px;
+    background-color: var(--color-secundario);
+    border: 2px inset var(--color-texto-primario);
+    min-width: 300px;
+}
+.titular {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.cuenta-texto {
+    font-size: .9rem;
+}
+.cuenta-opciones {
+    margin-top: 10px;
+}
+.boton {
+    border: 1px solid var(--color-texto-primario);
+    background-color: var(--color-primario);
+    color: var(--color-texto-primario);
+    padding: .5rem 1rem;
+    border-radius: 10px;
+    font-weight: bold;
+    outline-color: var(--color-foco);
+    cursor: pointer;
+    transition: translate .3s;
+    &:hover {
+        background-color: hsl(from var(--color-primario) h s 25%);
+        translate: 0 -4px;
+    }
+}
+.boton-eliminar {
+    color: var(--color-texto-eliminar);
+}
+.boton-ingresar {
+    color: var(--color-texto-ingresar);
+}
+.boton-retirar {
+    color: var(--color-texto-retirar);
+}
+.boton-aceptar {
+    color: var(--color-texto-ingresar);
+    display: block;
+    width: 100%;
+}
+
+.dialogo {
+    background-color: var(--color-secundario);
+    color: var(--color-texto-primario);
+    min-width: 400px;
+    position: relative;
+    border-radius: 20px;
+    border-width: 1px;
+    &::backdrop {
+        background-color: rgba(0, 0, 0, 0.482);
+        backdrop-filter: blur(2px);
+    }
+}
+
+.control {
+    display: block;
+    width: 100%;
+    background-color: transparent;
+    color:var(--color-texto-primario);
+    padding: .5rem;
+    margin-top: 4px;
+    margin-bottom: 10px;
+    border: 1px solid var(--color-texto-primario);
+    border-radius: 5px;
+    &:focus{
+        border-color: var(--color-foco);
+        outline: none;
+    }
+}
+.dialogo-cerrar {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: transparent;
+    font-weight: 900;
+    color: var(--color-texto-primario);
+    border: none;
+    font-size: 1.4rem;
+    cursor: pointer;
+    &:hover {
+        color:hsl(from var(--color-texto-primario) h s 50%)
+    }
+}
+
+@media screen and (max-width: 900px) {
+    :root {
+        --ancho-contenido: 96%;
+    }
+    .cuenta {
+        min-width: 100%;
+    }
+    .encabezado {
+        padding-left: 130px;
+    }
+}
+@media screen and (max-width: 600px) {
+    .encabezado-contenedor {
+        flex-direction: column;
+        gap: 20px;
+    }
 }
