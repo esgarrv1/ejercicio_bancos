@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banco Monedox</title>
+    <link rel="stylesheet" href="css/estilos.css">
+    <script type="module" src="js/app.js"></script>
+</head>
+<body>
+    <header class="encabezado">
+        <div class="encabezado-contenedor">
+            <div class="contenedor-banco">
+                <h1 class="banco-titulo">gestor de cuentas</h1>
+                <h2 class="banco-nombre">Banco Monedox</h2>
+                <p class="banco-subtitulo">Gestiona ingresos y retiradas de dinero.</p>
+            </div>
+            <div class="resumen">
+                <p class="resumen-titulo">Saldo total</p>
+                <p class="resumen-saldo"><span id="saldo">0,00</span> €</p>
+            </div>
+        </div>
+    </header>
+    <main class="principal">
+        <header class="principal-encabezado">
+            <div class="principal-textos">
+                <h2 class="principal-titulo">Cuentas bancarias</h2>
+                <p>Selecciona una cuenta para realizar una operación.</p>
+            </div>
+            <button class="boton" id="nuevaCuenta">+ Nueva cuenta</button>
+            <button class="boton" id="ordenarPorNombre">Ordenar por nombre</button>
+            <button class="boton" id="ordenarPorSaldo">Ordenar por saldo</button>
+        </header>
+        <div class="cuentas">
+            <div class="cuenta">
+                <p class="cuenta-texto">E01</p>
+                <p class="titular">Ana López</p>
+                <p class="cuenta-texto">Saldo disponible</p>
+                <p class="saldo"><span>1250,00</span> €</p>
+                <div class="cuenta-opciones">
+                    <button class="boton boton-eliminar">Eliminar</button>
+                    <button class="boton boton-ingresar">Ingresar</button>
+                    <button class="boton boton-retirar">Retirar</button>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
