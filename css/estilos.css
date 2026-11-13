@@ -163,6 +163,24 @@ body {
     }
 }
 
+.popup {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background-color: var(--color-primario);
+    color: var(--color-texto-primario);
+    padding: 1rem;
+    border-radius: 10px;
+    border: 2px solid var(--color-foco);
+    display: none;
+}
+.popup-mostrar {
+    display: block;
+}
+.popup-ocultar {
+    display: none;
+}
+
 @media screen and (max-width: 900px) {
     :root {
         --ancho-contenido: 96%;

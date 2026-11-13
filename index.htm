@@ -71,11 +71,12 @@
         <h2>Crear cuenta</h2>
         <form method="dialog">
             <label for="numeroCuenta">Número de cuenta</label>
-            <input type="text" name="numeroCuenta" id="numeroCuenta" class="control">
+            <input type="text" name="numeroCuenta" id="numeroCuenta" 
+                class="control" required pattern="[a-z]\d\d\d">
             <label for="titular">Titular</label>
-            <input type="text" name="titular" id="titular" class="control">
+            <input type="text" name="titular" id="titular" class="control" required minlength ="2" maxlength="10">
             <label for="saldoInicial">Saldo inicial</label>
-            <input type="number" name="saldoInicial" id="saldoInicial" class="control">
+            <input type="number" name="saldoInicial" id="saldoInicial" class="control" required min="1">
             <button class="boton boton-aceptar">Crear cuenta</button>
         </form>
         <button class="dialogo-cerrar">x</button>
@@ -89,6 +90,8 @@
             <button class="boton boton-aceptar">Confirmar operación</button>
         </form>
         <button class="dialogo-cerrar">x</button>
-    </dialog>    
+    </dialog> 
+    
+    <div class="popup" id="mensaje">asjdgahsd gajsd jga sdgjagsda</div>
 </body>
 </html>
