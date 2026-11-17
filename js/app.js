@@ -1,18 +1,148 @@
 import { Cuenta } from "./cuenta.js";
 import { Banco } from "./banco.js";
+import  * as bancoStorage from "./bancoStorage.js";
 
 
 function mostrarCreacionCuenta(evt) {
     const dialogo = document.getElementById('crearCuenta');
+    // Debemos borrar los datos que hubiese de una creación anterior
+    document.getElementById('numeroCuenta').value = '';
+    document.getElementById('titular').value = '';
+    document.getElementById('saldoInicial').value = '';
     dialogo.showModal();
 }
 
-function agregarCuenta(evt) {
-    
+function mostrarMensaje(texto) {
+    const mensaje = document.getElementById('mensaje');
+    mensaje.textContent = texto;
+    mensaje.classList.add('popup-mostrar');
+    // Cuando una función interna usa una variable local de la función
+    // donde se encuentra, se crea un cierre (closure) y mantiene una copia de la
+    // variable
+    setTimeout(() => {
+        mensaje.classList.remove('popup-mostrar');
+    }, 1500);
 }
+
+function agregarCuenta(evt) {
+    const numeroCuenta = document.getElementById('numeroCuenta').value;
+    const titular = document.getElementById('titular').value;
+    const saldo = document.getElementById('saldoInicial').value;
+    banco.agregarCuenta(numeroCuenta, titular, saldo);
+    mostrarCuenta(banco.obtenerCuenta(numeroCuenta));
+    mostrarMensaje('Cuenta creada');
+    bancoStorage.guardar(banco);
+}
+
+function mostrarCuenta(cuenta) {
+    document.querySelector('.cuentas').insertAdjacentHTML('beforeend',
+        `
+         <div class="cuenta" data-numero-cuenta="${cuenta.numeroCuenta}">
+                <p class="cuenta-texto">${cuenta.numeroCuenta}</p>
+                <p class="titular">${cuenta.titular}</p>
+                <p class="cuenta-texto">Saldo disponible</p>
+                <p class="saldo"><span>${cuenta.saldo}</span> €</p>
+                <div class="cuenta-opciones">
+                    <button class="boton boton-eliminar">Eliminar</button>
+                    <button class="boton boton-ingresar">Ingresar</button>
+                    <button class="boton boton-retirar">Retirar</button>
+                </div>
+            </div>
+        `
+    );
+}
+
+function mostrarCuentas(cuentas) {
+    document.querySelector('.cuentas').textContent = '';
+    for (const c of cuentas) {
+        mostrarCuenta(c);
+    }
+}
+
+function mostrarIngresar(cuenta) {
+    document.querySelector('#tipoOperacion').textContent = 'Ingresar';
+    document.querySelector('#datosCuenta')
+        .textContent = `${cuenta.numeroCuenta} ${cuenta.titular}`;
+    const dialogo = document.querySelector('#realizarOperacion');
+    dialogo.dataset.tipoOperacion = 'I';
+    dialogo.dataset.numeroCuenta = cuenta.numeroCuenta;
+    dialogo.showModal();
+}
+
+function mostrarRetirar(cuenta) {
+    document.querySelector('#tipoOperacion').textContent = 'Retirar';
+    document.querySelector('#datosCuenta')
+        .textContent = `${cuenta.numeroCuenta} ${cuenta.titular}`;
+    const dialogo = document.querySelector('#realizarOperacion');
+    dialogo.dataset.tipoOperacion = 'R';
+    dialogo.dataset.numeroCuenta = cuenta.numeroCuenta;
+    dialogo.showModal();
+}
+
+function manejarCuenta(evt) {
+    if(evt.target.classList.contains('boton-ingresar')) {
+        const cuenta = banco.obtenerCuenta(evt.target.closest('.cuenta').dataset.numeroCuenta);
+        mostrarIngresar(cuenta);
+    } else if(evt.target.classList.contains('boton-retirar')){
+        const cuenta = banco.obtenerCuenta(evt.target.closest('.cuenta').dataset.numeroCuenta);
+        mostrarRetirar(cuenta);
+    } else if(evt.target.classList.contains('boton-eliminar')){
+        const cuenta = banco.obtenerCuenta(evt.target.closest('.cuenta').dataset.numeroCuenta);
+        banco.eliminarCuenta(cuenta.numeroCuenta);
+        bancoStorage.guardar(banco);
+        evt.target.closest('.cuenta').remove();
+        actualizarSaldos();
+    }
+}
+
+function actualizarSaldos(cuenta = null) {
+    if(cuenta) {
+        document.querySelector(`.cuenta[data-numero-cuenta="${cuenta.numeroCuenta}"] .saldo`)
+            .textContent = cuenta.saldo + ' €';
+    }
+    document.getElementById('saldo').textContent = banco.obtenerSaldoTotal();
+}
+
+function realizarOperacion() {
+    const importe = Number(document.querySelector('#importe').value);
+    const dialogo = document.getElementById('realizarOperacion');
+    const numeroCuenta = dialogo.dataset.numeroCuenta;
+    const cuenta = banco.obtenerCuenta(numeroCuenta);
+    if(dialogo.dataset.tipoOperacion === 'I') {
+        cuenta.ingresar(importe);
+        mostrarMensaje('Ingreso realizado');
+    } else {
+        const resultado = cuenta.retirar(importe);
+        mostrarMensaje(resultado ? 'Retirada realizada' : 'No hay suficiente saldo');
+    }
+    bancoStorage.guardar(banco);
+    actualizarSaldos(cuenta);
+}
+
+function ordenarPorNombre(evt) {
+    const cuentas = banco.obtenerCuentas((c1, c2) => c1.titular.localeCompare(c2.titular));
+}
+
+function ordenarPorSaldo(evt) {
+
+}
+
+const banco = new Banco();
+mostrarCuentas(banco.obtenerCuentas());
+actualizarSaldos();
 
 document.getElementById('nuevaCuenta').addEventListener('click', mostrarCreacionCuenta);
 document.getElementById('crearCuenta').addEventListener('submit', agregarCuenta);
+document.querySelectorAll('.dialogo-cerrar')
+    .forEach( 
+        d => d.addEventListener('click', 
+        evt => evt.currentTarget.closest('dialog').close()
+    )
+);
+document.querySelector('.cuentas').addEventListener('click', manejarCuenta);
+document.getElementById('realizarOperacion').addEventListener('submit', realizarOperacion);
+document.getElementById('ordenarPorNombre').addEventListener('click', ordenarPorNombre);
+document.getElementById('ordenarPorSaldo').addEventListener('click', ordenarPorSaldo);
 
 
 

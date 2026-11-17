@@ -32,7 +32,7 @@
             <button class="boton" id="ordenarPorSaldo">Ordenar por saldo</button>
         </header>
         <div class="cuentas">
-            <div class="cuenta">
+         <!--   <div class="cuenta">
                 <p class="cuenta-texto">E01</p>
                 <p class="titular">Ana López</p>
                 <p class="cuenta-texto">Saldo disponible</p>
@@ -65,6 +65,7 @@
                     <button class="boton boton-retirar">Retirar</button>
                 </div>
             </div>
+            -->
         </div>
     </main>
     <dialog class="dialogo" id="crearCuenta">
@@ -82,16 +83,16 @@
         <button class="dialogo-cerrar">x</button>
     </dialog>
     <dialog class="dialogo" id="realizarOperacion">
-        <h2>Operación</h2>
+        <h2 id="tipoOperacion">Operación</h2>
         <form method="dialog">
-            <p class="datos-cuenta">ES-21 Ana López</p>
+            <p class="datos-cuenta" id="datosCuenta">ES-21 Ana López</p>
             <label for="importe">Importe</label>
-            <input type="number" name="importe" id="importe" class="control">
+            <input type="number" name="importe" id="importe" class="control" required min="1">
             <button class="boton boton-aceptar">Confirmar operación</button>
         </form>
         <button class="dialogo-cerrar">x</button>
     </dialog> 
     
-    <div class="popup" id="mensaje">asjdgahsd gajsd jga sdgjagsda</div>
+    <div class="popup" id="mensaje"></div>
 </body>
 </html>

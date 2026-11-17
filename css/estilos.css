@@ -164,7 +164,7 @@ body {
 }
 
 .popup {
-    position: absolute;
+    position: fixed;
     bottom: 20px;
     right: 20px;
     background-color: var(--color-primario);
@@ -173,12 +173,16 @@ body {
     border-radius: 10px;
     border: 2px solid var(--color-foco);
     display: none;
+    transition: opacity .5s, scale .5s;
 }
 .popup-mostrar {
     display: block;
-}
-.popup-ocultar {
-    display: none;
+    opacity: 1;
+    scale: 1;
+    @starting-style {
+        opacity: 0;
+        scale: .5;
+    }
 }
 
 @media screen and (max-width: 900px) {

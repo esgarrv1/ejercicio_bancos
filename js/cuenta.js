@@ -69,4 +69,16 @@ export class Cuenta {
         this.#saldo -= importe;// this.#saldo = this.#saldo - importe;
         return true;
     }
+
+    toJSON() {
+        return {
+            numeroCuenta: this.#numeroCuenta, 
+            titular: this.#titular, 
+            saldo: this.#saldo
+        };
+    }
+
+    static fromJSON(objeto) {
+        return new Cuenta(objeto.numeroCuenta, objeto.titular, Number(objeto.saldo));
+    }
 }

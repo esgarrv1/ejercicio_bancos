@@ -1,4 +1,5 @@
-import { Cuenta } from "./cuenta.js"
+import * as bancoStorage from "./bancoStorage.js";
+import {Cuenta} from "./cuenta.js"
 
 /** Guestiona las cuentas de un banco */
 export class Banco {
@@ -6,7 +7,16 @@ export class Banco {
     #cuentas = [];
 
     /**
-     * Aañade una nueva cuenta
+     * Crea un objeto Banco y carga las cuentas existenes
+     * @constructor
+     */
+    constructor() {
+        this.#cuentas = bancoStorage.cargar();
+        console.log(this.#cuentas);
+    }
+
+    /**
+     * Añade una nueva cuenta
      *      
      * @param {string} numeroCuenta 
      * @param {string} titular 
@@ -49,5 +59,9 @@ export class Banco {
      */
     obtenerCuenta(numeroCuenta) {
         return this.#cuentas.find(c => c.numeroCuenta === numeroCuenta);
+    }
+
+    obtenerSaldoTotal() {
+        return this.#cuentas.reduce((acumulado, cuenta) => acumulado + cuenta.saldo, 0);
     }
 }
