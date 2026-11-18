@@ -1,4 +1,3 @@
-import { Cuenta } from './cuenta.js';
 import { Banco } from './banco.js';
 import * as bancoStorage from './bancoStorage.js';
 
@@ -48,7 +47,8 @@ function mostrarCuenta(cuenta) {
                     <button class="boton boton-ingresar">Ingresar</button>
                     <button class="boton boton-retirar">Retirar</button>
                 </div>
-            </div>
+                <button class="boton boton-informe">📈</button>
+          </div>
         `,
   );
 }
@@ -93,7 +93,38 @@ function manejarCuenta(evt) {
     const cuenta = banco.obtenerCuenta(
       evt.target.closest('.cuenta').dataset.numeroCuenta);
       eliminarCuenta(cuenta);
+  } else if (evt.target.classList.contains('boton-informe')) {
+     const cuenta = banco.obtenerCuenta(
+      evt.target.closest('.cuenta').dataset.numeroCuenta);
+      mostrarMovimientos(cuenta.obtenerMovimientos());
   }
+}
+
+function mostrarMovimientos(movimientos) {
+  if(movimientos.length === 0) {
+    mostrarMensaje('No hay movimientos');
+    return;
+  }
+  const informe = document.getElementById('informe');
+  const contenedor = document.querySelector('.informe-movimientos');
+  contenedor.textContent = '';
+  for (const m of movimientos) {
+    //const clase = m.tipoMovimiento === 'I' ? 'movimientos-ingreso' : 'movimientos-retirada';
+    //const tipoMovimiento = m.tipoMovimiento === 'I' ? 'Ingreso' : 'Retirada';
+
+    // Desestructuración
+    const [clase, tipoMovimiento] = 
+      m.tipoMovimiento === 'I' ? ['movimientos-ingreso', 'Ingreso']
+                               : ['movimientos-retirada', 'Retirada'];
+
+    contenedor.insertAdjacentHTML('beforeend',
+      `
+        <div class="movimientos-importe ${clase}">${m.importe} €</div>
+        <div class="movimientos-tipo">${tipoMovimiento}</div>
+      `
+    );
+  }
+  informe.showModal();
 }
 
 function actualizarSaldos(cuenta = null) {

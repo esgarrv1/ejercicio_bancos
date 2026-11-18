@@ -62,7 +62,7 @@ body {
 .principal-encabezado {
     display: flex;
     justify-content: space-between;
-    gap:1rem;
+    gap: 1rem;
     /* En tamaños de ventana más pequeño, los botones quedan demasiado altos */
     align-items: center;
 }
@@ -78,6 +78,7 @@ body {
     background-color: var(--color-secundario);
     border: 2px inset var(--color-texto-primario);
     min-width: 300px;
+    position: relative;
 }
 .titular {
     font-size: 1.2rem;
@@ -118,6 +119,11 @@ body {
     color: var(--color-texto-ingresar);
     display: block;
     width: 100%;
+}
+.boton-informe {
+    position: absolute;
+    top: 10px;
+    right: 10px;
 }
 
 .dialogo {
@@ -162,6 +168,32 @@ body {
         color:hsl(from var(--color-texto-primario) h s 50%)
     }
 }
+
+.informe-movimientos {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    background-color: var(--color-terciario);
+}
+.movimientos-ingreso {
+    color: var(--color-texto-ingresar);
+}
+.movimientos-retirada {
+    color: var(--color-texto-eliminar);
+}
+.movimientos-importe {
+    text-align: end;
+}
+.movimientos-importe, .movimientos-tipo {
+    padding: .3rem 1rem;
+}
+
+.informe-movimientos > :nth-of-type(4n+3),
+.informe-movimientos > :nth-of-type(4n+4) {
+    background-color: var(--color-primario);
+}
+
 
 .popup {
     position: fixed;
