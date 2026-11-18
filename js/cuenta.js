@@ -1,3 +1,5 @@
+import { Movimiento } from "./movimiento.js";
+
 /**
  * Gestiona una cuenta bancaria
  */
@@ -8,17 +10,21 @@ export class Cuenta {
     #titular;
     /** type {number} */
     #saldo;
+    /** type {Movimiento} */
+    #movimientos
 
     /**
      * @constructor 
      * @param {string} numeroCuenta 
      * @param {string} titular 
      * @param {number} saldo 
+     * @param {[movimientos[] = []]} movimientos de la cuenta
      */
-    constructor(numeroCuenta, titular, saldo) {
+    constructor(numeroCuenta, titular, saldo, movimientos = []) {
         this.#numeroCuenta = numeroCuenta;
         this.#titular = titular;
         this.#saldo = saldo;
+        this.#movimientos = movimientos;
     }
 
     /**
@@ -46,6 +52,25 @@ export class Cuenta {
     }
 
     /**
+     * Devuelve una copia superficial de la colección de movimientos
+     * 
+     * @returns {Movimiento[]}
+     */
+    obtenerMovimientos() {
+        return [...this.#movimientos];
+    }
+
+    /**
+     * Guarda el movimiento realizado
+     * 
+     * @param {number} importe 
+     * @param {string} tipoMovimiento - I (ingreso) o R (retirada)
+     */
+    #agregarMovimiento(importe, tipoMovimiento) {
+        this.#movimientos.push(new Movimiento(importe, tipoMovimiento));
+    }
+
+    /**
      * Ingresa un importe en la cuenta
      * 
      * @param {number} importe 
@@ -53,6 +78,7 @@ export class Cuenta {
      */
     ingresar(importe) {
         this.#saldo += importe;
+        this.#agregarMovimiento(importe, 'I');
         return true;
     }
 
@@ -67,6 +93,7 @@ export class Cuenta {
             return false;
         }
         this.#saldo -= importe;// this.#saldo = this.#saldo - importe;
+        this.#agregarMovimiento(importe, 'R');
         return true;
     }
 
@@ -74,11 +101,12 @@ export class Cuenta {
         return {
             numeroCuenta: this.#numeroCuenta, 
             titular: this.#titular, 
-            saldo: this.#saldo
+            saldo: this.#saldo,
+            movimientos: this.#movimientos
         };
     }
 
     static fromJSON(objeto) {
-        return new Cuenta(objeto.numeroCuenta, objeto.titular, Number(objeto.saldo));
+        return new Cuenta(objeto.numeroCuenta, objeto.titular, Number(objeto.saldo), objeto.movimientos);
     }
 }

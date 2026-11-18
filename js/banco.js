@@ -1,67 +1,70 @@
-import * as bancoStorage from "./bancoStorage.js";
-import {Cuenta} from "./cuenta.js"
+import * as bancoStorage from './bancoStorage.js';
+import { Cuenta } from './cuenta.js';
 
 /** Guestiona las cuentas de un banco */
 export class Banco {
-    /** type {[Cuenta]} */
-    #cuentas = [];
+  /** type {[Cuenta]} */
+  #cuentas = [];
 
-    /**
-     * Crea un objeto Banco y carga las cuentas existenes
-     * @constructor
-     */
-    constructor() {
-        this.#cuentas = bancoStorage.cargar();
-        console.log(this.#cuentas);
+  /**
+   * Crea un objeto Banco y carga las cuentas existenes
+   * @constructor
+   */
+  constructor() {
+    this.#cuentas = bancoStorage.cargar();
+  }
+
+  /**
+   * Añade una nueva cuenta
+   *
+   * @param {string} numeroCuenta
+   * @param {string} titular
+   * @param {number} saldo
+   */
+  agregarCuenta(numeroCuenta, titular, saldo) {
+    this.#cuentas.push(new Cuenta(numeroCuenta, titular, saldo));
+  }
+
+  /**
+   * Elimina una cuenta
+   *
+   * @param {string} numeroCuenta
+   */
+  eliminarCuenta(numeroCuenta) {
+    this.#cuentas = this.#cuentas.filter(
+      (c) => c.numeroCuenta !== numeroCuenta,
+    );
+  }
+
+  /**
+   * Devuelve una copia superficial de la colección de cuentas ordenadas
+   * según la función pasada como parámetro
+   *
+   * @param {((Cuenta, Cuenta) => number) | null } funcionOrdenar - la función para
+   * ordenar las cuentas o nada si no se quieren ordenar
+   * @returns {Cuenta[]} Las cuentas ordenadas
+   */
+  obtenerCuentas(funcionOrdenar = null) {
+    if (funcionOrdenar === null) {
+      return [...this.#cuentas];
     }
+    return this.#cuentas.toSorted(funcionOrdenar);
+  }
 
-    /**
-     * Añade una nueva cuenta
-     *      
-     * @param {string} numeroCuenta 
-     * @param {string} titular 
-     * @param {number} saldo 
-     */
-    agregarCuenta(numeroCuenta, titular, saldo) {
-        this.#cuentas.push(new Cuenta(numeroCuenta, titular, saldo));
-    }
+  /**
+   * Busca una cuenta
+   *
+   * @param {string} numeroCuenta
+   * @returns {Cuenta} - la cuenta buscada
+   */
+  obtenerCuenta(numeroCuenta) {
+    return this.#cuentas.find((c) => c.numeroCuenta === numeroCuenta);
+  }
 
-
-    /**
-     * Elimina una cuenta
-     * 
-     * @param {string} numeroCuenta 
-     */
-    eliminarCuenta(numeroCuenta) {
-        this.#cuentas = this.#cuentas.filter(c => c.numeroCuenta !== numeroCuenta);
-    }
-
-    /**
-     * Devuelve una copia superficial de la colección de cuentas ordenadas
-     * según la función pasada como parámetro
-     * 
-     * @param {((Cuenta, Cuenta) => number) | null } funcionOrdenar - la función para 
-     * ordenar las cuentas o nada si no se quieren ordenar
-     * @returns {[Cuenta]} Las cuentas ordenadas
-     */
-    obtenerCuentas(funcionOrdenar = null) {
-        if(funcionOrdenar === null) {
-            return [...this.#cuentas];
-        }
-        return this.#cuentas.toSorted(funcionOrdenar);
-    }
-
-    /**
-     * Busca una cuenta
-     * 
-     * @param {string} numeroCuenta 
-     * @returns {Cuenta} - la cuenta buscada
-     */
-    obtenerCuenta(numeroCuenta) {
-        return this.#cuentas.find(c => c.numeroCuenta === numeroCuenta);
-    }
-
-    obtenerSaldoTotal() {
-        return this.#cuentas.reduce((acumulado, cuenta) => acumulado + cuenta.saldo, 0);
-    }
+  obtenerSaldoTotal() {
+    return this.#cuentas.reduce(
+      (acumulado, cuenta) => acumulado + cuenta.saldo,
+      0,
+    );
+  }
 }
